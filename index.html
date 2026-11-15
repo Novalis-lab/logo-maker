@@ -3,328 +3,239 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>ロゴメーカー｜文字を入れるだけでロゴを作る｜novalis</title>
-<meta name="description" content="お店やブランドの名前を入れて、マーク・フォント・配色をえらぶだけでロゴを作れる無料ツール。透過PNGやSNSアイコン用の正方形画像で保存できます。登録不要・端末の中だけで作ります。">
+<title>かんたんロゴメーカー｜無料・登録なしでお店のロゴとアイコン画像を作成｜novalis</title>
+<meta name="description" content="お店の名前・屋号・チーム名を入れるだけで、シンプルなロゴとアイコン画像を無料で作れます。登録不要・スマホOK。フォントや配色をえらんで、高画質PNG・透過PNG・512×512のSNSアイコンとして保存できます。">
 <link rel="canonical" href="https://novalis-lab.github.io/logo-maker/">
-<meta name="theme-color" content="#0b0b0d">
+<meta name="theme-color" content="#f4f5f7">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="novalis">
 <meta property="og:locale" content="ja_JP">
 <meta property="og:url" content="https://novalis-lab.github.io/logo-maker/">
-<meta property="og:title" content="ロゴメーカー｜文字を入れるだけでロゴを作る">
-<meta property="og:description" content="名前を入れて、マーク・フォント・配色をえらぶだけ。透過PNGやSNSアイコン用の画像で保存できる無料ツール。">
+<meta property="og:title" content="かんたんロゴメーカー｜無料・登録なしでロゴとアイコンを作成">
+<meta property="og:description" content="お店の名前・屋号・チーム名を入れるだけ。シンプルなロゴとSNSアイコン画像を無料で作れます。">
 <meta property="og:image" content="https://novalis-lab.github.io/ogp.png?v=20261113">
 <meta name="twitter:card" content="summary_large_image">
-<!-- サイトのアイコン（novalis共通のロゴ） -->
 <link rel="icon" href="https://novalis-lab.github.io/icon.svg" type="image/svg+xml">
 <link rel="icon" href="https://novalis-lab.github.io/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="https://novalis-lab.github.io/apple-touch-icon.png">
-<!-- 全ページ共通（フォント：Zen Maru Gothic・Unbounded／角の丸み／ダブルタップ対策） -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://novalis-lab.github.io/common.css?v=20261113d">
-<!-- ロゴに使うフォント（Google Fonts・無料・商用利用OK）。使う文字の部分だけが読み込まれます -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@800&family=Noto+Sans+JP:wght@900&family=Zen+Kaku+Gothic+New:wght@700&family=Noto+Serif+JP:wght@700&family=Shippori+Mincho+B1:wght@800&family=Dela+Gothic+One&family=Yusei+Magic&family=Kaisei+Decol:wght@700&family=Hachi+Maru+Pop&family=Yuji+Syuku&family=Rampart+One&family=Reggae+One&family=Montserrat:wght@800&family=Playfair+Display:wght@700&family=Pacifico&display=swap">
+<!-- ロゴに使うフォント（Google Fonts・すべて商用利用できるライセンス）。画面に出る文字の分だけ読み込まれます -->
+<link id="logo-fonts" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Zen+Maru+Gothic:wght@700&family=Noto+Serif+JP:wght@700&family=Dela+Gothic+One&family=Yusei+Magic&family=Hachi+Maru+Pop&family=Yuji+Syuku&family=Kaisei+Decol:wght@700&family=M+PLUS+1:wght@800&display=swap">
 <style>
-/* 色はトップページ（novalis）とそろえています */
 :root{
-  --bg:#0b0b0d; --card:rgba(255,255,255,.025);
-  --ink:#f2f0ea; --sub:#8b8a86; --dim:#5d5c58;
-  --line:rgba(255,255,255,.12); --field:#08080a;
-  --accent:#6f9fd4; --accent-rgb:111,159,212; --accent-ink:#0b0b0d;
+  --bg:#f4f5f7; --card:#ffffff; --ink:#1f2328; --sub:#646b73; --dim:#9aa0a6;
+  --line:#e1e4e8; --soft:#f0f2f4; --accent:#2f6fde; --accent-soft:#e8f0fd;
+  --radius:12px;
+  --font:"Noto Sans JP","Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
 }
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;color-scheme:dark}
-body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:18px;line-height:1.6;overflow-x:hidden}
-::selection{background:var(--accent);color:var(--accent-ink)}
+html{-webkit-text-size-adjust:100%;color-scheme:light}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.7;touch-action:manipulation}
+button,input{font:inherit;color:inherit}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px calc(32px + env(safe-area-inset-bottom))}
 .hidden{display:none !important}
 
-/* ---------- 背景（縦のガイド線と斜めのライン：トップページと同じ） ---------- */
-.bg{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
-.bg-cols{position:absolute;inset:0;max-width:592px;margin:0 auto;border-left:1px solid rgba(255,255,255,.05);border-right:1px solid rgba(255,255,255,.05)}
-.bg-slash{position:absolute;top:-10%;right:-30%;width:90%;height:120%;
-  background:repeating-linear-gradient(-55deg,rgba(255,255,255,.04) 0 1px,transparent 1px 14px);
-  -webkit-mask-image:linear-gradient(200deg,#000 10%,transparent 55%);mask-image:linear-gradient(200deg,#000 10%,transparent 55%);
-  animation:drift 14s ease-in-out infinite alternate}
-@keyframes drift{to{transform:translate(-60px,24px)}}
+/* 上のバー・見出し */
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:14px 0;font-size:13px}
+.topbar a{color:var(--sub);text-decoration:none}
+.topbar a:hover{color:var(--accent)}
+.topbar .site{font-weight:700;letter-spacing:.12em;color:var(--ink)}
+h1{margin:8px 0 6px;font-size:clamp(26px,7.4vw,32px);line-height:1.3;letter-spacing:.02em}
+.lead{margin:0;color:var(--sub);font-size:14.5px}
 
-.wrap{max-width:592px;margin:0 auto;padding:0 16px calc(24px + env(safe-area-inset-bottom))}
-
-/* ---------- 上のバーと見出し ---------- */
-.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 0;border-bottom:1px solid var(--line);
-  font-family:var(--font-en);font-size:10px;font-weight:700;letter-spacing:.22em}
-.logo{display:inline-flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none;font-weight:800;font-size:13px;letter-spacing:.18em}
-.logo-mark{width:11px;height:11px;background:var(--accent);transform:rotate(45deg)}
-.logo:hover{color:var(--accent)}
-.topbar a.back{color:var(--sub);text-decoration:none}
-.topbar a.back:hover{color:var(--accent)}
-.kicker{display:flex;align-items:center;gap:12px;margin:30px 0 10px;font-family:var(--font-en);font-size:11px;font-weight:700;letter-spacing:.3em;color:var(--sub)}
-.kicker::before{content:"";width:32px;height:1px;background:var(--accent)}
-h1{font-size:clamp(30px,9vw,42px);margin:0;line-height:1.25;letter-spacing:.02em;font-weight:700}
-h1 .u-line{background:linear-gradient(transparent 84%,var(--accent) 84%,var(--accent) 94%,transparent 94%) no-repeat left/0% 100%;
-  animation:underline .9s cubic-bezier(.7,0,.2,1) .4s forwards}
-@keyframes underline{to{background-size:100% 100%}}
-.lead{color:var(--sub);font-size:.92rem;margin:14px 0 0;padding-top:14px;border-top:1px solid var(--line)}
-
-/* ---------- カード（番号つき） ---------- */
-main{counter-reset:card}
-.card{counter-increment:card;margin-top:20px;padding:22px 18px 20px;background:var(--card);border:1px solid var(--line);border-top:1px solid var(--ink);border-radius:var(--radius,8px)}
-h2{margin:0 0 16px;font-size:20px;font-weight:700;letter-spacing:.02em}
-h2::before{content:counter(card,decimal-leading-zero) " /";display:block;margin-bottom:4px;font-family:var(--font-en);font-size:11px;font-weight:700;letter-spacing:.2em;color:var(--accent)}
-.lbl{display:flex;justify-content:space-between;align-items:baseline;margin:0 0 8px;font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--sub)}
-.lbl output{font-family:var(--font-en);font-size:12px;letter-spacing:0;color:var(--ink)}
-.field+.field{margin-top:22px}
-.note{margin:10px 2px 0;font-size:12.5px;line-height:1.6;color:var(--sub)}
-
-/* ---------- プレビュー（画面の上に固定） ---------- */
-.preview-card{position:sticky;top:0;z-index:20;margin:20px -16px 0;padding:12px 16px 12px;background:rgba(11,11,13,.92);
-  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.stage{display:flex;align-items:center;justify-content:center;height:clamp(150px,44vw,230px);padding:12px;border-radius:var(--radius,8px);border:1px solid var(--line);overflow:hidden;
-  background:#fff}
-.stage.checker{background-color:#fff;background-image:linear-gradient(45deg,#e4e4e4 25%,transparent 25%,transparent 75%,#e4e4e4 75%),linear-gradient(45deg,#e4e4e4 25%,transparent 25%,transparent 75%,#e4e4e4 75%);
+/* プレビュー（スクロールしても上に残る） */
+.preview{position:sticky;top:0;z-index:10;margin:16px -16px 0;padding:10px 16px 12px;background:rgba(244,245,247,.94);
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.stage{position:relative;display:flex;align-items:center;justify-content:center;height:clamp(150px,46vw,220px);padding:10px;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
+  background-color:#fff;background-image:linear-gradient(45deg,#e9ebee 25%,transparent 25%,transparent 75%,#e9ebee 75%),linear-gradient(45deg,#e9ebee 25%,transparent 25%,transparent 75%,#e9ebee 75%);
   background-size:16px 16px;background-position:0 0,8px 8px}
-.stage.checker.dark{background-color:#1a1a1d;background-image:linear-gradient(45deg,#26262a 25%,transparent 25%,transparent 75%,#26262a 75%),linear-gradient(45deg,#26262a 25%,transparent 25%,transparent 75%,#26262a 75%)}
-.stage canvas{display:block;max-width:100%;max-height:100%;width:auto;height:auto}
-.pv-actions{display:grid;grid-template-columns:auto 1fr auto;gap:8px;margin-top:10px}
-.btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 16px;border:0;border-radius:var(--radius,8px);font:inherit;font-size:16px;font-weight:700;cursor:pointer;color:var(--ink)}
-.btn.ghost{background:transparent;border:1px solid var(--line)}
-.btn.ghost:hover{border-color:var(--accent)}
-.btn:disabled{opacity:.35;cursor:default}
-.btn.main{background:var(--accent);color:var(--accent-ink);box-shadow:0 0 16px 1px rgba(var(--accent-rgb),.45)}
-.btn.dice span{display:inline-block}
-.btn.dice.spin span{animation:spin .45s cubic-bezier(.3,.7,.4,1)}
-@keyframes spin{to{transform:rotate(360deg)}}
-.pv-sub{display:flex;justify-content:space-between;align-items:center;margin-top:6px;font-size:12px;color:var(--sub)}
-.pv-sub button{padding:4px 0;border:0;background:none;color:var(--sub);font:inherit;font-size:12px;text-decoration:underline;cursor:pointer}
+.stage canvas{display:block;max-width:100%;max-height:100%;height:auto;box-shadow:0 1px 6px rgba(0,0,0,.08)}
+.stage canvas.clear{box-shadow:none}
+.loading{position:absolute;right:8px;bottom:8px;padding:2px 10px;border-radius:999px;background:rgba(31,35,40,.75);color:#fff;font-size:12px}
+.stage .empty{color:var(--sub);font-size:14px}
+.pv-row{display:flex;gap:8px;margin-top:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:48px;padding:0 16px;border:1px solid var(--line);border-radius:var(--radius);background:#fff;font-size:15px;font-weight:700;cursor:pointer}
+.btn:hover{border-color:var(--accent)}
+.btn:disabled{opacity:.4;cursor:default}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.grow{flex:1}
 
-/* ---------- 入力 ---------- */
-.txt{width:100%;min-height:54px;padding:10px 14px;border:1px solid var(--line);border-radius:var(--radius,8px);background:var(--field);color:var(--ink);font:inherit;font-size:18px;font-weight:700}
-.txt:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(var(--accent-rgb),.25)}
-.txt::placeholder{color:var(--dim);font-weight:500}
-.seg{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:var(--radius,8px);overflow:hidden}
-.seg.two{grid-template-columns:repeat(2,1fr)}
-.seg button{min-height:50px;padding:4px 2px;border:0;background:transparent;color:var(--sub);font:inherit;font-size:14px;font-weight:700;cursor:pointer;line-height:1.3}
-.seg button+button{border-left:1px solid var(--line)}
-.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+/* カード */
+.card{margin-top:16px;padding:18px 16px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius)}
+h2{margin:0 0 12px;font-size:17px}
+.field+.field{margin-top:16px}
+.lbl{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;font-size:13.5px;font-weight:700;color:var(--sub)}
+.lbl .req{margin-left:6px;padding:0 6px;border-radius:4px;background:#fde8e8;color:#c0392b;font-size:11px}
+.lbl .count{font-weight:400;font-size:12px}
+.txt{width:100%;min-height:50px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;font-size:17px}
+.txt:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.txt::placeholder{color:var(--dim)}
+.note{margin:6px 0 0;font-size:12.5px;color:var(--sub)}
+.err{margin:6px 0 0;font-size:13px;color:#c0392b}
 
-/* 選ぶボタン（チップ） */
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chips button{min-width:46px;min-height:46px;padding:4px 12px;border:1px solid var(--line);border-radius:var(--radius,8px);background:transparent;color:var(--ink);font:inherit;font-size:18px;font-weight:700;cursor:pointer;transition:border-color .2s,background .2s}
-.chips button:hover{border-color:var(--accent)}
-.chips button[aria-pressed="true"]{border-color:var(--accent);background:rgba(var(--accent-rgb),.18);box-shadow:inset 0 0 0 1px var(--accent)}
-.chips button.word{font-size:14px}
+/* えらぶボタン共通 */
+.opts{display:grid;gap:8px}
+.opts button{border:1px solid var(--line);border-radius:10px;background:#fff;cursor:pointer;color:var(--ink)}
+.opts button:hover{border-color:var(--accent)}
+.opts button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);box-shadow:inset 0 0 0 1px var(--accent)}
+.layouts{grid-template-columns:repeat(4,1fr)}
+.layouts button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 2px 8px;font-size:12.5px;font-weight:700}
+.layouts svg{width:44px;height:28px}
+.shapes{grid-template-columns:repeat(3,1fr)}
+.shapes button{display:flex;align-items:center;justify-content:center;gap:8px;min-height:52px;font-size:14px;font-weight:700}
+.shapes svg{width:24px;height:24px;flex:0 0 auto}
+.fonts{grid-template-columns:repeat(2,1fr)}
+.fonts button{display:flex;flex-direction:column;align-items:flex-start;padding:8px 12px;min-height:68px;text-align:left;overflow:hidden}
+.fonts .s{max-width:100%;font-size:21px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fonts .n{font-size:11.5px;font-weight:700;color:var(--sub)}
+.presets{grid-template-columns:repeat(4,1fr)}
+.presets button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 2px 6px;font-size:11.5px;font-weight:700;color:var(--sub)}
+.presets .sw{position:relative;width:44px;height:32px;border-radius:6px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)}
+.presets .sw i{position:absolute;left:6px;top:6px;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:11px;font-weight:700}
+.presets .sw b{position:absolute;right:5px;top:12px;width:12px;height:8px;border-radius:2px}
 
-/* マークの形 */
-.shapes{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.shapes button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:72px;border:1px solid var(--line);border-radius:var(--radius,8px);background:transparent;color:var(--sub);font:inherit;font-size:12px;font-weight:700;cursor:pointer}
-.shapes button svg{width:28px;height:28px;color:var(--ink)}
-.shapes button:hover{border-color:var(--accent)}
-.shapes button[aria-pressed="true"]{border-color:var(--accent);background:rgba(var(--accent-rgb),.18);color:var(--ink);box-shadow:inset 0 0 0 1px var(--accent)}
-
-/* フォント */
-.fonts{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-.fonts button{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-height:76px;padding:10px 12px;border:1px solid var(--line);border-radius:var(--radius,8px);background:transparent;color:var(--ink);text-align:left;cursor:pointer;overflow:hidden}
-.fonts button .s{font-size:22px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
-.fonts button .n{font-family:var(--font);font-size:11px;font-weight:700;color:var(--sub)}
-.fonts button:hover{border-color:var(--accent)}
-.fonts button[aria-pressed="true"]{border-color:var(--accent);background:rgba(var(--accent-rgb),.18);box-shadow:inset 0 0 0 1px var(--accent)}
-
-/* 配色 */
-.palettes{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
-.palettes button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 2px 6px;border:1px solid var(--line);border-radius:var(--radius,8px);background:transparent;color:var(--sub);font:inherit;font-size:11px;font-weight:700;cursor:pointer}
-.palettes .sw{position:relative;width:40px;height:40px;border-radius:8px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.15)}
-.palettes .sw i{position:absolute;left:7px;top:7px;width:14px;height:14px;border-radius:50%}
-.palettes .sw b{position:absolute;right:6px;bottom:8px;width:16px;height:5px;border-radius:2px}
-.palettes button:hover{border-color:var(--accent)}
-.palettes button[aria-pressed="true"]{border-color:var(--accent);color:var(--ink);background:rgba(var(--accent-rgb),.18);box-shadow:inset 0 0 0 1px var(--accent)}
-.colors{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
-.colors li{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:58px;border-bottom:1px solid var(--line)}
-.colors .c-name{font-size:16px;font-weight:700}
-.colors .c-name small{display:block;font-family:var(--font-en);font-size:11px;font-weight:500;color:var(--sub);letter-spacing:.06em}
-.colors input[type=color]{width:56px;height:40px;padding:0;border:1px solid var(--line);border-radius:8px;background:none;cursor:pointer}
+/* 色 */
+.colors{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.colors label{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:52px;padding:6px 8px 6px 12px;border:1px solid var(--line);border-radius:10px;font-size:13.5px;font-weight:700;cursor:pointer}
+.colors input[type=color]{width:44px;height:36px;padding:0;border:1px solid var(--line);border-radius:8px;background:#fff;cursor:pointer;flex:0 0 auto}
 .colors input[type=color]::-webkit-color-swatch-wrapper{padding:3px}
 .colors input[type=color]::-webkit-color-swatch{border:0;border-radius:5px}
-
-/* スライダー */
-input[type=range]{width:100%;height:40px;-webkit-appearance:none;appearance:none;background:transparent}
-input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:3px;background:linear-gradient(90deg,var(--accent) var(--p,50%),rgba(255,255,255,.12) var(--p,50%))}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;margin-top:-10px;border-radius:50%;background:var(--ink);box-shadow:0 0 0 4px rgba(var(--accent-rgb),.5)}
-input[type=range]::-moz-range-track{height:6px;border-radius:3px;background:rgba(255,255,255,.12)}
-input[type=range]::-moz-range-progress{height:6px;border-radius:3px;background:var(--accent)}
-input[type=range]::-moz-range-thumb{width:26px;height:26px;border:0;border-radius:50%;background:var(--ink)}
+.colors input:disabled{opacity:.35}
+.check{display:flex;align-items:center;gap:10px;min-height:48px;margin-top:10px;font-size:15px;font-weight:700;cursor:pointer}
+.check input{width:22px;height:22px;accent-color:var(--accent)}
 
 /* 保存 */
-.save-grid{display:grid;gap:10px}
-.save-grid .btn{min-height:58px;justify-content:space-between;padding:0 18px}
-.save-grid .btn small{font-family:var(--font-en);font-size:11px;font-weight:500;letter-spacing:.04em;opacity:.75}
+.saves{display:grid;gap:8px}
+.saves .btn{justify-content:space-between;min-height:56px;font-size:16px}
+.saves .btn small{font-weight:400;font-size:12px;opacity:.85}
+.result{margin-top:14px;padding:14px;border:1px dashed var(--accent);border-radius:var(--radius);background:var(--accent-soft);text-align:center}
+.result p{margin:0 0 10px;font-size:14px;font-weight:700}
+.result .imgbox{display:inline-block;max-width:100%;padding:8px;border-radius:8px;
+  background-color:#fff;background-image:linear-gradient(45deg,#e9ebee 25%,transparent 25%,transparent 75%,#e9ebee 75%),linear-gradient(45deg,#e9ebee 25%,transparent 25%,transparent 75%,#e9ebee 75%);
+  background-size:16px 16px;background-position:0 0,8px 8px}
+.result img{display:block;max-width:100%;max-height:300px;-webkit-touch-callout:default}
+.result small{display:block;margin-top:8px;color:var(--sub);font-size:12px}
 
-/* お知らせ */
-.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));z-index:60;transform:translate(-50%,20px);opacity:0;pointer-events:none;
-  padding:12px 20px;border-radius:var(--radius,8px);background:var(--ink);color:var(--bg);font-size:15px;font-weight:700;white-space:nowrap;
-  box-shadow:0 10px 30px -10px rgba(0,0,0,.8);transition:opacity .25s,transform .25s}
+/* よくある質問 */
+.faq dt{margin-top:12px;font-weight:700;font-size:14.5px}
+.faq dt:first-child{margin-top:0}
+.faq dd{margin:2px 0 0;color:var(--sub);font-size:13.5px}
+
+.more{display:block;margin:24px auto 0;max-width:320px;padding:14px;border-radius:var(--radius);background:var(--ink);color:#fff;text-align:center;text-decoration:none;font-weight:700}
+.foot{margin-top:18px;text-align:center;font-size:12px;color:var(--dim)}
+.foot a{color:inherit}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));z-index:50;transform:translate(-50%,16px);opacity:0;pointer-events:none;
+  padding:10px 18px;border-radius:999px;background:var(--ink);color:#fff;font-size:14px;font-weight:700;white-space:nowrap;transition:opacity .25s,transform .25s}
 .toast.show{opacity:1;transform:translate(-50%,0)}
-
-/* ---------- 斜めに流れる帯（トップページと同じ） ---------- */
-.ticker-wrap{position:relative;margin:36px -16px 0;padding:40px 0;overflow:hidden;overflow-x:clip;overflow-y:visible}
-.ticker{margin:0 -5%;padding:11px 0;background:var(--accent);color:var(--accent-ink);transform:rotate(-2.5deg);overflow:hidden;white-space:nowrap;
-  box-shadow:0 0 18px 2px rgba(var(--accent-rgb),.5),0 0 48px 6px rgba(var(--accent-rgb),.22);animation:glow-band 2.8s ease-in-out infinite}
-@keyframes glow-band{50%{box-shadow:0 0 26px 4px rgba(var(--accent-rgb),.7),0 0 70px 12px rgba(var(--accent-rgb),.32)}}
-.ticker-track{display:inline-flex;animation:marquee 26s linear infinite}
-.ticker-track span{display:inline-flex;align-items:center;gap:22px;padding-right:22px;font-family:var(--font-en);font-weight:800;font-size:15px;letter-spacing:.06em}
-.ticker-track span::after{content:"✦";font-size:.8em}
-@keyframes marquee{to{transform:translateX(-50%)}}
-
-/* ---------- フッター ---------- */
-footer{margin-top:32px;padding:16px;border:1px solid var(--line);border-radius:var(--radius,8px);color:var(--sub);font-size:14px;text-align:center}
-.more{position:relative;display:flex;align-items:center;justify-content:space-between;margin:28px auto 0;max-width:340px;min-height:58px;padding:0 22px 0 26px;
-  border-radius:var(--radius,8px);background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:16px;text-decoration:none;overflow:hidden;isolation:isolate;
-  box-shadow:0 0 18px 2px rgba(var(--accent-rgb),.55),0 0 48px 6px rgba(var(--accent-rgb),.28);animation:glow-btn 2.8s ease-in-out infinite}
-@keyframes glow-btn{50%{box-shadow:0 0 26px 4px rgba(var(--accent-rgb),.75),0 0 70px 14px rgba(var(--accent-rgb),.38)}}
-.more::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--ink);transform:scaleX(0);transform-origin:right;transition:transform .4s cubic-bezier(.7,0,.2,1)}
-.more:hover::before{transform:scaleX(1);transform-origin:left}
-.site-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:40px;padding-top:18px;border-top:1px solid var(--line);
-  font-family:var(--font-en);font-size:10px;font-weight:700;letter-spacing:.2em;color:var(--sub)}
-.site-bottom a{color:inherit;text-decoration:none}
-.site-bottom a:hover{color:var(--accent)}
-.footer-logo{margin:8px 0 0;font-family:var(--font-en);font-weight:800;font-size:clamp(44px,13.5vw,96px);line-height:.85;letter-spacing:-.04em;text-align:center;white-space:nowrap;
-  color:transparent;background:repeating-linear-gradient(-55deg,rgba(255,255,255,.2) 0 2px,transparent 2px 7px);-webkit-background-clip:text;background-clip:text;user-select:none}
-
-@media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation:none !important;transition:none !important}
-  h1 .u-line{background-size:100% 100%}
-}
+@media (prefers-reduced-motion:reduce){*{transition:none !important}}
 </style>
 </head>
 <body>
-<div class="bg" aria-hidden="true"><span class="bg-cols"></span><span class="bg-slash"></span></div>
-
 <div class="wrap">
   <div class="topbar">
-    <a class="logo" href="https://novalis-lab.github.io/"><span class="logo-mark" aria-hidden="true"></span>NOVALIS</a>
-    <a class="back" href="https://novalis-lab.github.io/">← ALL TOOLS</a>
+    <a class="site" href="https://novalis-lab.github.io/">NOVALIS</a>
+    <a href="https://novalis-lab.github.io/">← ツール一覧</a>
   </div>
-  <header>
-    <p class="kicker">LOGO MAKER</p>
-    <h1><span class="u-line">ロゴ</span>メーカー</h1>
-    <p class="lead">お店やブランドの名前を入れて、マーク・フォント・配色をえらぶだけでロゴができます。透過PNGやSNSアイコン用の正方形画像で保存できます。ロゴはこの端末の中だけで作り、どこにも送りません。</p>
-  </header>
+  <h1>かんたんロゴメーカー</h1>
+  <p class="lead">お店の名前・屋号・チーム名を入れるだけで、シンプルなロゴとアイコン画像を無料で作れます。登録は不要。作った画像はこの端末の中だけで作り、どこにも送りません。</p>
 
-  <div class="preview-card">
-    <div class="stage" id="stage"><canvas id="pv" aria-label="できあがったロゴ" role="img"></canvas></div>
-    <div class="pv-actions">
-      <button class="btn ghost dice" id="random" type="button" aria-label="おまかせで作る"><span aria-hidden="true">🎲</span></button>
-      <button class="btn main" id="save-main" type="button">画像で保存する</button>
-      <button class="btn ghost" id="undo" type="button" aria-label="ひとつ前にもどす" disabled><span aria-hidden="true">↩︎</span></button>
+  <!-- プレビュー -->
+  <div class="preview">
+    <div class="stage" id="stage">
+      <canvas id="pv" role="img" aria-label="ロゴのプレビュー"></canvas>
+      <span class="empty hidden" id="empty">ロゴの文字を入れてください</span>
+      <span class="loading hidden" id="loading">フォント読み込み中…</span>
     </div>
-    <div class="pv-sub"><span>🎲 でフォント・配色・マークをおまかせ</span><button type="button" id="checker-toggle" class="hidden">透明部分を暗く見る</button></div>
+    <div class="pv-row">
+      <button class="btn grow" type="button" id="random">🎲 おまかせで作る</button>
+      <button class="btn primary" type="button" id="jump-save">保存へ ↓</button>
+    </div>
   </div>
 
   <main>
     <section class="card">
-      <h2>名前を入れる</h2>
+      <h2>1. 文字を入れる</h2>
       <div class="field">
-        <label class="lbl" for="main-text">ロゴの文字</label>
-        <input class="txt" id="main-text" type="text" maxlength="24" placeholder="例：さくら珈琲" autocomplete="off">
+        <label class="lbl" for="main-text"><span>ロゴの文字<span class="req">必須</span></span><span class="count" id="main-count"></span></label>
+        <input class="txt" id="main-text" type="text" maxlength="20" placeholder="例：さくら珈琲" autocomplete="off" enterkeyhint="done">
+        <p class="err hidden" id="main-err">ロゴの文字を入れてください。</p>
       </div>
       <div class="field">
-        <label class="lbl" for="sub-text">小さな文字（なくてもOK）</label>
-        <input class="txt" id="sub-text" type="text" maxlength="40" placeholder="例：SAKURA COFFEE" autocomplete="off">
-        <p class="note">英語名・キャッチコピー・「since 2026」などを小さく添えられます。</p>
+        <label class="lbl" for="sub-text">サブの文字（任意）</label>
+        <input class="txt" id="sub-text" type="text" maxlength="40" placeholder="例：SAKURA COFFEE" autocomplete="off" enterkeyhint="done">
+        <p class="note">英語の表記やキャッチコピーを小さく入れられます。</p>
       </div>
-    </section>
-
-    <section class="card">
-      <h2>マーク</h2>
       <div class="field">
-        <span class="lbl">形</span>
-        <div class="shapes" id="shapes"></div>
-      </div>
-      <div class="field" id="mark-fields">
-        <span class="lbl">マークの中身</span>
-        <div class="chips" id="symbols"></div>
-        <input class="txt" id="mark-text" type="text" maxlength="4" placeholder="好きな1〜2文字" autocomplete="off" style="margin-top:10px">
-        <p class="note">好きな1〜2文字（漢字・英字・絵文字）も入れられます。</p>
+        <label class="lbl" for="mark-text">マークの文字（1〜2文字）</label>
+        <input class="txt" id="mark-text" type="text" maxlength="8" placeholder="空欄ならロゴの1文字目" autocomplete="off" enterkeyhint="done">
       </div>
     </section>
 
     <section class="card">
-      <h2>並べ方</h2>
+      <h2>2. レイアウト</h2>
+      <div class="opts layouts" id="layouts"></div>
+    </section>
+
+    <section class="card" id="shape-card">
+      <h2>3. マークの形</h2>
+      <div class="opts shapes" id="shapes"></div>
+    </section>
+
+    <section class="card">
+      <h2>4. フォント</h2>
+      <div class="opts fonts" id="fonts"></div>
+      <p class="note">すべて無料で商用利用できる Google Fonts です。</p>
+    </section>
+
+    <section class="card">
+      <h2>5. 色</h2>
       <div class="field">
-        <div class="seg" id="layout">
-          <button type="button" data-v="row">横<br>ならび</button>
-          <button type="button" data-v="col">たて<br>ならび</button>
-          <button type="button" data-v="text">文字<br>だけ</button>
-          <button type="button" data-v="mark">マーク<br>だけ</button>
+        <span class="lbl">配色セット（タップで4色まとめて変更）</span>
+        <div class="opts presets" id="presets"></div>
+      </div>
+      <div class="field">
+        <span class="lbl">1色ずつ変える</span>
+        <div class="colors">
+          <label>文字<input type="color" id="c-text"></label>
+          <label>マーク<input type="color" id="c-mark"></label>
+          <label>マークの文字<input type="color" id="c-ink"></label>
+          <label>背景<input type="color" id="c-bg"></label>
         </div>
-      </div>
-      <div class="field">
-        <label class="lbl" for="spacing">文字の間かく <output id="spacing-v"></output></label>
-        <input type="range" id="spacing" min="-5" max="40" step="1">
-      </div>
-      <div class="field" id="mark-size-field">
-        <label class="lbl" for="mark-size">マークの大きさ <output id="mark-size-v"></output></label>
-        <input type="range" id="mark-size" min="60" max="160" step="5">
-      </div>
-    </section>
-
-    <section class="card">
-      <h2>フォント</h2>
-      <div class="fonts" id="fonts"></div>
-      <p class="note">どれも無料で商用利用できる Google Fonts です。英字専用のフォントでは、日本語は別のフォントで表示されます。</p>
-    </section>
-
-    <section class="card">
-      <h2>配色</h2>
-      <div class="field">
-        <span class="lbl">おすすめの組み合わせ</span>
-        <div class="palettes" id="palettes"></div>
-      </div>
-      <div class="field">
-        <span class="lbl">自分で決める</span>
-        <ul class="colors">
-          <li><label class="c-name" for="c-mark">マークの色<small id="c-mark-v"></small></label><input type="color" id="c-mark"></li>
-          <li><label class="c-name" for="c-text">文字の色<small id="c-text-v"></small></label><input type="color" id="c-text"></li>
-          <li><label class="c-name" for="c-bg">背景の色<small id="c-bg-v"></small></label><input type="color" id="c-bg"></li>
-        </ul>
-      </div>
-      <div class="field">
-        <span class="lbl">背景</span>
-        <div class="seg two" id="bgmode">
-          <button type="button" data-v="fill">色をぬる</button>
-          <button type="button" data-v="clear">透明（透過PNG）</button>
-        </div>
-        <p class="note">透明にすると、写真やチラシの上にロゴを重ねて使えます。</p>
+        <label class="check"><input type="checkbox" id="transparent">背景を透明にする（透過PNG）</label>
       </div>
     </section>
 
     <section class="card" id="save-card">
-      <h2>保存する</h2>
-      <div class="save-grid">
-        <button class="btn main" type="button" data-save="logo">ロゴ画像（PNG）<small id="size-logo"></small></button>
-        <button class="btn ghost" type="button" data-save="square">SNSアイコン用（正方形）<small>1024×1024</small></button>
-        <button class="btn ghost" type="button" data-save="wide">ヘッダー・バナー用（横長）<small>1500×500</small></button>
+      <h2>6. 保存する</h2>
+      <div class="saves">
+        <button class="btn primary save" type="button" data-kind="logo">ロゴを保存<small id="logo-size">高画質PNG</small></button>
+        <button class="btn save" type="button" data-kind="icon">アイコン用を保存<small>512×512 PNG</small></button>
       </div>
-      <p class="note">iPhone では、保存ボタンのあとに出る画面で「画像を保存」をえらぶと写真アプリに入ります。<br>作ったロゴは自由に使えます（お店の看板・名刺・SNS・チラシなど）。ただし、ほかのお店とそっくりな名前やマークにならないよう気をつけてください。</p>
+      <p class="note">アイコン用は、マークを正方形の真ん中に大きく入れます（「文字だけ」のときはロゴ全体）。SNSのプロフィール画像やホーム画面のアイコンに。</p>
+      <div class="result hidden" id="result">
+        <p>📱 保存できないときは、下の画像を長押しして「写真に保存」をえらんでください</p>
+        <div class="imgbox"><img id="result-img" alt="保存用のロゴ画像"></div>
+        <small id="result-info"></small>
+      </div>
+    </section>
+
+    <section class="card faq">
+      <h2>よくある質問</h2>
+      <dl>
+        <dt>本当に無料ですか？登録はいりますか？</dt>
+        <dd>無料で、登録もいりません。何回でも作り直せます。</dd>
+        <dt>作ったロゴはお店やチームで使えますか？</dt>
+        <dd>看板・名刺・SNS・チラシなどに自由に使えます。フォントはすべて商用利用できるものです。ただし、ほかのお店とそっくりな名前やマークにならないようご注意ください。</dd>
+        <dt>入れた文字はどこかに送られますか？</dt>
+        <dd>送られません。画像はこの端末の中（ブラウザ）だけで作っています。入れた文字と設定は、次に開いたときのためにこの端末にだけ保存されます。</dd>
+      </dl>
     </section>
   </main>
 
-  <div class="ticker-wrap" aria-hidden="true">
-    <div class="ticker"><div class="ticker-track">
-      <span>LOGO MAKER</span><span>DESIGN</span><span>NOVALIS</span>
-      <span>LOGO MAKER</span><span>DESIGN</span><span>NOVALIS</span>
-      <span>LOGO MAKER</span><span>DESIGN</span><span>NOVALIS</span>
-    </div></div>
-  </div>
-
-  <footer>入れた文字や設定は、次に開いたときのためにこの端末にだけ保存されます。</footer>
-  <a class="more" href="https://novalis-lab.github.io/">ほかのツールを見る<span aria-hidden="true">→</span></a>
-  <div class="site-bottom">
-    <a href="https://novalis-lab.github.io/">NOVALIS TOP</a>
-    <span>© NOVALIS</span>
-  </div>
-  <p class="footer-logo" aria-hidden="true">NOVALIS</p>
+  <a class="more" href="https://novalis-lab.github.io/">ほかの無料ツールを見る →</a>
+  <p class="foot">© <a href="https://novalis-lab.github.io/">novalis</a></p>
 </div>
-
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -332,382 +243,284 @@ footer{margin-top:32px;padding:16px;border:1px solid var(--line);border-radius:v
   "use strict";
   var $ = function (id) { return document.getElementById(id); };
 
-  /* ---------- えらべるもの ---------- */
-  // フォント（family：Google Fonts の名前、w：太さ、jp：日本語が入っているか）
+  /* ================= えらべるもの ================= */
   var FONTS = [
-    { id: "maru",   family: "Zen Maru Gothic",      w: 700, jp: true,  name: "まるゴシック" },
-    { id: "mplus",  family: "M PLUS Rounded 1c",    w: 800, jp: true,  name: "まる太" },
-    { id: "goth",   family: "Noto Sans JP",         w: 900, jp: true,  name: "ゴシック極太" },
-    { id: "kaku",   family: "Zen Kaku Gothic New",  w: 700, jp: true,  name: "すっきりゴシック" },
-    { id: "serif",  family: "Noto Serif JP",        w: 700, jp: true,  name: "明朝" },
-    { id: "shippo", family: "Shippori Mincho B1",   w: 800, jp: true,  name: "上品な明朝" },
-    { id: "dela",   family: "Dela Gothic One",      w: 400, jp: true,  name: "どっしり" },
-    { id: "decol",  family: "Kaisei Decol",         w: 700, jp: true,  name: "レトロ" },
-    { id: "yusei",  family: "Yusei Magic",          w: 400, jp: true,  name: "マジック手書き" },
-    { id: "hachi",  family: "Hachi Maru Pop",       w: 400, jp: true,  name: "まるポップ" },
-    { id: "yuji",   family: "Yuji Syuku",           w: 400, jp: true,  name: "筆文字" },
-    { id: "rampart",family: "Rampart One",          w: 400, jp: true,  name: "立体" },
-    { id: "reggae", family: "Reggae One",           w: 400, jp: true,  name: "力づよい" },
-    { id: "unb",    family: "Unbounded",            w: 800, jp: false, name: "英字・まる太" },
-    { id: "mont",   family: "Montserrat",           w: 800, jp: false, name: "英字・ゴシック" },
-    { id: "play",   family: "Playfair Display",     w: 700, jp: false, name: "英字・セリフ" },
-    { id: "paci",   family: "Pacifico",             w: 400, jp: false, name: "英字・筆記体" }
+    { id: "gothic", family: "Noto Sans JP",    w: 700, name: "ゴシック" },
+    { id: "maru",   family: "Zen Maru Gothic", w: 700, name: "丸ゴシック" },
+    { id: "mincho", family: "Noto Serif JP",   w: 700, name: "明朝" },
+    { id: "pop",    family: "Dela Gothic One", w: 400, name: "極太ポップ" },
+    { id: "hand",   family: "Yusei Magic",     w: 400, name: "手書き風" },
+    { id: "cute",   family: "Hachi Maru Pop",  w: 400, name: "まるっこポップ" },
+    { id: "brush",  family: "Yuji Syuku",      w: 400, name: "筆文字" },
+    { id: "retro",  family: "Kaisei Decol",    w: 700, name: "レトロ" },
+    { id: "latin",  family: "M PLUS 1",        w: 800, name: "英字向け" }
   ];
-  // 配色（mark：マーク、text：文字、bg：背景）
-  var PALETTES = [
-    { id: "navy",   name: "ネイビー", mark: "#1f3a5f", text: "#1f3a5f", bg: "#ffffff" },
-    { id: "sakura", name: "さくら",   mark: "#e8879c", text: "#5a3a40", bg: "#fff5f7" },
-    { id: "matcha", name: "抹茶",     mark: "#6a8f4e", text: "#2f3b28", bg: "#f4f1e6" },
-    { id: "coffee", name: "珈琲",     mark: "#7a5236", text: "#3b2a20", bg: "#f5ede3" },
-    { id: "sea",    name: "海",       mark: "#2a9dc4", text: "#164a5e", bg: "#eef8fb" },
-    { id: "orange", name: "ビタミン", mark: "#ff8a3d", text: "#2b2b2b", bg: "#fff8ec" },
-    { id: "lav",    name: "ラベンダー", mark: "#8e7cc3", text: "#3d3557", bg: "#f6f3fc" },
-    { id: "red",    name: "赤と黒",   mark: "#d64541", text: "#1c1c1c", bg: "#ffffff" },
-    { id: "night",  name: "夜空",     mark: "#ffd166", text: "#f2f0ea", bg: "#14161f" },
-    { id: "mono",   name: "モノクロ", mark: "#111111", text: "#111111", bg: "#ffffff" }
+  var LAYOUTS = [
+    { id: "row",  name: "横並び",     svg: '<circle cx="9" cy="14" r="7" fill="currentColor"/><rect x="20" y="9" width="22" height="6" rx="2" fill="currentColor"/><rect x="20" y="18" width="14" height="3" rx="1.5" fill="currentColor" opacity=".5"/>' },
+    { id: "col",  name: "縦並び",     svg: '<circle cx="22" cy="8" r="6" fill="currentColor"/><rect x="10" y="17" width="24" height="5" rx="2" fill="currentColor"/><rect x="15" y="24" width="14" height="3" rx="1.5" fill="currentColor" opacity=".5"/>' },
+    { id: "text", name: "文字だけ",   svg: '<rect x="6" y="9" width="32" height="7" rx="2" fill="currentColor"/><rect x="12" y="19" width="20" height="3" rx="1.5" fill="currentColor" opacity=".5"/>' },
+    { id: "mark", name: "マークだけ", svg: '<circle cx="22" cy="14" r="11" fill="currentColor"/>' }
   ];
-  // マークの形（アイコンは選ぶボタン用のSVG）
   var SHAPES = [
-    { id: "circle",  name: "まる",     svg: '<circle cx="14" cy="14" r="12" fill="currentColor"/>' },
-    { id: "rsquare", name: "かど丸",   svg: '<rect x="2" y="2" width="24" height="24" rx="6" fill="currentColor"/>' },
-    { id: "diamond", name: "ひし形",   svg: '<path d="M14 1 27 14 14 27 1 14Z" fill="currentColor"/>' },
-    { id: "hexagon", name: "六角形",   svg: '<path d="M14 1.5 25 7.8v12.4L14 26.5 3 20.2V7.8Z" fill="currentColor"/>' },
-    { id: "ring",    name: "輪",       svg: '<circle cx="14" cy="14" r="11" fill="none" stroke="currentColor" stroke-width="3"/>' },
-    { id: "square",  name: "四角",     svg: '<rect x="3" y="3" width="22" height="22" fill="currentColor"/>' },
-    { id: "plain",   name: "形なし",   svg: '<text x="14" y="21" text-anchor="middle" font-size="20" font-weight="700" fill="currentColor">A</text>' },
-    { id: "none",    name: "マークなし", svg: '<path d="M6 6 22 22M22 6 6 22" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>' }
+    { id: "circle",  name: "丸",       svg: '<circle cx="12" cy="12" r="10" fill="currentColor"/>' },
+    { id: "rsquare", name: "角丸",     svg: '<rect x="2" y="2" width="20" height="20" rx="5" fill="currentColor"/>' },
+    { id: "leaf",    name: "葉っぱ形", svg: '<path d="M12 2H22V12A10 10 0 0 1 12 22H2V12A10 10 0 0 1 12 2Z" fill="currentColor"/>' },
+    { id: "hexagon", name: "六角形",   svg: '<path d="M12 1.5 21.1 6.75v10.5L12 22.5 2.9 17.25V6.75Z" fill="currentColor"/>' },
+    { id: "diamond", name: "ひし形",   svg: '<path d="M12 1 23 12 12 23 1 12Z" fill="currentColor"/>' },
+    { id: "ring",    name: "輪っか",   svg: '<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.6"/>' }
   ];
-  // マークの中身の候補（"@initial" は名前の頭文字）。記号は絵文字にならないよう、文字の形で出す指定（FE0E）をつける
-  var SYMBOLS = ["@initial", "★", "♥", "✿", "◆", "●", "☀", "☾", "♪", "✦", "∞", "&", "☕", "🌸", "🍀", "🐾", "🏠", "🎨"];
-  var TEXT_STYLE = "︎";
+  // 配色セット（text：文字、mark：マーク、ink：マークの文字、bg：背景）
+  var PRESETS = [
+    { id: "navy",   name: "ネイビー", text: "#1f3a5f", mark: "#1f3a5f", ink: "#ffffff", bg: "#ffffff" },
+    { id: "sakura", name: "さくら",   text: "#5a3a40", mark: "#e8879c", ink: "#ffffff", bg: "#fff5f7" },
+    { id: "matcha", name: "抹茶",     text: "#2f3b28", mark: "#6a8f4e", ink: "#f4f1e6", bg: "#f4f1e6" },
+    { id: "coffee", name: "珈琲",     text: "#3b2a20", mark: "#7a5236", ink: "#f5ede3", bg: "#f5ede3" },
+    { id: "sea",    name: "海",       text: "#164a5e", mark: "#2a9dc4", ink: "#ffffff", bg: "#eef8fb" },
+    { id: "citrus", name: "みかん",   text: "#2b2b2b", mark: "#ff8a3d", ink: "#ffffff", bg: "#fff8ec" },
+    { id: "night",  name: "夜空",     text: "#f2f0ea", mark: "#ffd166", ink: "#14161f", bg: "#14161f" },
+    { id: "mono",   name: "モノクロ", text: "#111111", mark: "#111111", ink: "#ffffff", bg: "#ffffff" }
+  ];
 
-  /* ---------- 設定（この端末にだけ保存） ---------- */
-  var DEFAULT = { main: "さくら珈琲", sub: "SAKURA COFFEE", shape: "circle", symbol: "@initial", layout: "row", spacing: 6, markSize: 100,
-    font: "maru", palette: "sakura", mark: "#e8879c", text: "#5a3a40", bg: "#fff5f7", bgmode: "fill", darkChecker: false };
-  var KEY = "novalis-logo-maker";
+  /* ================= 設定（この端末にだけ保存） ================= */
+  var DEFAULT = { main: "さくら珈琲", sub: "SAKURA COFFEE", markText: "", layout: "row", shape: "circle", font: "maru",
+    preset: "sakura", text: "#5a3a40", mark: "#e8879c", ink: "#ffffff", bg: "#fff5f7", transparent: false };
+  var KEY = "novalis-logo-maker-v2";
   var state = JSON.parse(JSON.stringify(DEFAULT));
   try {
     var saved = JSON.parse(localStorage.getItem(KEY) || "{}");
     Object.keys(state).forEach(function (k) { if (typeof saved[k] === typeof state[k]) state[k] = saved[k]; });
   } catch (e) {}
   function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
-  var history = [];
-  function remember() { history.push(JSON.stringify(state)); if (history.length > 30) history.shift(); $("undo").disabled = false; }
+  function byId(list, id) { for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i]; return list[0]; }
 
-  /* ---------- 文字の扱い ---------- */
-  // 絵文字などをこわさずに1文字ずつに分ける
-  function chars(s) {
-    if (window.Intl && Intl.Segmenter) return Array.from(new Intl.Segmenter("ja", { granularity: "grapheme" }).segment(s), function (x) { return x.segment; });
-    return Array.from(s);
+  /* ================= 文字の扱い ================= */
+  // 絵文字や濁点つきの文字をこわさずに、1文字ずつに分ける
+  var seg = window.Intl && Intl.Segmenter ? new Intl.Segmenter("ja", { granularity: "grapheme" }) : null;
+  function chars(s) { return seg ? Array.from(seg.segment(s), function (x) { return x.segment; }) : Array.from(s); }
+  function markString() {
+    var src = state.markText.trim() ? chars(state.markText.trim()).slice(0, 2) : chars(state.main.trim()).slice(0, 1);
+    var t = src.join("");
+    return /^[a-z]$/.test(t) ? t.toUpperCase() : t;
   }
-  function fontOf(id) { for (var i = 0; i < FONTS.length; i++) if (FONTS[i].id === id) return FONTS[i]; return FONTS[0]; }
-  function cssFont(f, px) {
-    // 英字専用フォントで日本語が出ないときは、丸ゴシックで代わりに表示する
-    return f.w + " " + px + "px \"" + f.family + "\", \"Zen Maru Gothic\", \"Hiragino Sans\", sans-serif";
-  }
-  function markText() {
-    if (state.symbol === "@initial") {
-      var c = chars(state.main.trim())[0] || "A";
-      return /[a-z]/.test(c) ? c.toUpperCase() : c;
-    }
-    var cs = chars(state.symbol);
-    return cs.slice(0, 2).map(function (c) { return c.length === 1 && c.charCodeAt(0) >= 0x2000 && c.charCodeAt(0) < 0x2800 ? c + TEXT_STYLE : c; }).join("");
-  }
-  function lum(hex) {
-    var n = parseInt(hex.slice(1), 16), rgb = [n >> 16 & 255, n >> 8 & 255, n & 255].map(function (v) { v /= 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); });
-    return .2126 * rgb[0] + .7152 * rgb[1] + .0722 * rgb[2];
-  }
+  function fontSpec(f, px) { return f.w + " " + Math.round(px * 100) / 100 + "px \"" + f.family + "\", \"Noto Sans JP\", sans-serif"; }
 
-  /* ---------- ロゴを描く ---------- */
-  // 1行の幅と高さを測る（文字の間かくも入れる）
-  function measure(ctx, text, font, size, ls) {
-    if (!text) return { w: 0, asc: 0, desc: 0, list: [] };
+  /* ================= ロゴを描く ================= */
+  // 1行の大きさを測る（ls：文字の間かく px）
+  function measure(ctx, text, font, ls) {
+    if (!text) return { w: 0, asc: 0, desc: 0 };
     ctx.font = font;
     var list = chars(text), widths = list.map(function (c) { return ctx.measureText(c).width; });
-    var m = ctx.measureText(text);
-    var w = ls ? widths.reduce(function (a, b) { return a + b; }, 0) + ls * (list.length - 1) : m.width;
-    return { w: w, asc: Math.max(m.actualBoundingBoxAscent || size * .8, size * .1), desc: Math.max(m.actualBoundingBoxDescent || 0, 0), list: list, widths: widths };
+    var m = ctx.measureText(text), size = parseFloat(font.split(" ")[1]);
+    return {
+      list: list, widths: widths,
+      w: ls ? widths.reduce(function (a, b) { return a + b; }, 0) + ls * (list.length - 1) : m.width,
+      asc: Math.max(m.actualBoundingBoxAscent || size * .8, size * .1),
+      desc: Math.max(m.actualBoundingBoxDescent || 0, 0)
+    };
   }
-  function drawLine(ctx, text, m, left, base, ls) {
+  function fillLine(ctx, text, m, left, base, ls) {
     if (!ls) { ctx.fillText(text, left, base); return; }
     var x = left;
     m.list.forEach(function (c, i) { ctx.fillText(c, x, base); x += m.widths[i] + ls; });
   }
-  function shapePath(ctx, shape, cx, cy, M) {
-    var r = M / 2;
+  // 角ごとに丸みを変えた四角（葉っぱ形・角丸用）。r：[左上, 右上, 右下, 左下]
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.moveTo(x + r[0], y);
+    ctx.lineTo(x + w - r[1], y); ctx.arcTo(x + w, y, x + w, y + r[1], r[1]);
+    ctx.lineTo(x + w, y + h - r[2]); ctx.arcTo(x + w, y + h, x + w - r[2], y + h, r[2]);
+    ctx.lineTo(x + r[3], y + h); ctx.arcTo(x, y + h, x, y + h - r[3], r[3]);
+    ctx.lineTo(x, y + r[0]); ctx.arcTo(x, y, x + r[0], y, r[0]);
+    ctx.closePath();
+  }
+  function shapePath(ctx, cx, cy, M) {
+    var r = M / 2, x = cx - r, y = cy - r, s = state.shape;
     ctx.beginPath();
-    if (shape === "circle" || shape === "ring") ctx.arc(cx, cy, shape === "ring" ? r - M * .04 : r, 0, Math.PI * 2);
-    else if (shape === "square") ctx.rect(cx - r, cy - r, M, M);
-    else if (shape === "rsquare") {
-      var k = M * .24, x = cx - r, y = cy - r;
-      ctx.moveTo(x + k, y); ctx.arcTo(x + M, y, x + M, y + M, k); ctx.arcTo(x + M, y + M, x, y + M, k); ctx.arcTo(x, y + M, x, y, k); ctx.arcTo(x, y, x + M, y, k); ctx.closePath();
-    } else if (shape === "diamond") { ctx.moveTo(cx, cy - r); ctx.lineTo(cx + r, cy); ctx.lineTo(cx, cy + r); ctx.lineTo(cx - r, cy); ctx.closePath(); }
-    else if (shape === "hexagon") {
+    if (s === "circle") ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    else if (s === "ring") ctx.arc(cx, cy, r - M * .045, 0, Math.PI * 2);
+    else if (s === "rsquare") roundRect(ctx, x, y, M, M, [M * .22, M * .22, M * .22, M * .22]);
+    else if (s === "leaf") roundRect(ctx, x, y, M, M, [r, M * .04, r, M * .04]);
+    else if (s === "diamond") { ctx.moveTo(cx, y); ctx.lineTo(x + M, cy); ctx.lineTo(cx, y + M); ctx.lineTo(x, cy); ctx.closePath(); }
+    else if (s === "hexagon") {
       for (var i = 0; i < 6; i++) { var a = Math.PI / 3 * i - Math.PI / 2; ctx[i ? "lineTo" : "moveTo"](cx + r * Math.cos(a), cy + r * Math.sin(a)); }
       ctx.closePath();
     }
   }
   function drawMark(ctx, cx, cy, M, f) {
-    var shape = state.shape, filled = shape !== "ring" && shape !== "plain";
-    ctx.fillStyle = state.mark;
-    if (filled) { shapePath(ctx, shape, cx, cy, M); ctx.fill(); }
-    if (shape === "ring") { shapePath(ctx, shape, cx, cy, M); ctx.lineWidth = M * .08; ctx.strokeStyle = state.mark; ctx.stroke(); }
-    // 中身の文字
-    var t = markText(), n = chars(t).length;
-    var k = shape === "plain" ? .95 : shape === "diamond" ? .44 : shape === "hexagon" ? .5 : .54;
-    if (n >= 2) k *= .72;
-    var size = M * k;
-    var ink = filled ? (lum(state.mark) > .55 ? "#1c1c1c" : "#ffffff") : state.mark;
-    ctx.font = cssFont(f, size);
-    var m = ctx.measureText(t), w = m.width;
-    if (w > M * (shape === "plain" ? 1 : .74)) { size *= M * (shape === "plain" ? 1 : .74) / w; ctx.font = cssFont(f, size); m = ctx.measureText(t); w = m.width; }
+    var ring = state.shape === "ring";
+    shapePath(ctx, cx, cy, M);
+    if (ring) { ctx.lineWidth = M * .09; ctx.strokeStyle = state.mark; ctx.stroke(); }
+    else { ctx.fillStyle = state.mark; ctx.fill(); }
+    var t = markString(); if (!t) return;
+    // 形ごとに、中に収まる文字の大きさ
+    var room = { circle: .7, ring: .62, rsquare: .74, leaf: .7, hexagon: .66, diamond: .5 }[state.shape] || .66;
+    var size = M * (chars(t).length >= 2 ? .4 : .56) * (state.shape === "diamond" ? .85 : 1);
+    ctx.font = fontSpec(f, size);
+    var m = ctx.measureText(t);
+    if (m.width > M * room) { size *= M * room / m.width; ctx.font = fontSpec(f, size); m = ctx.measureText(t); }
     var asc = m.actualBoundingBoxAscent || size * .8, desc = m.actualBoundingBoxDescent || 0;
-    ctx.fillStyle = ink;
-    ctx.textAlign = "left";
-    ctx.fillText(t, cx - (m.actualBoundingBoxLeft !== undefined ? (m.actualBoundingBoxRight - m.actualBoundingBoxLeft) / 2 : w / 2), cy + (asc - desc) / 2);
+    var left = m.actualBoundingBoxLeft || 0, right = m.actualBoundingBoxRight || m.width;
+    ctx.fillStyle = ring ? state.mark : state.ink;   // 輪っかは中が空いているので、マークと同じ色で書く
+    ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
+    ctx.fillText(t, cx - (right - left) / 2 + left, cy + (asc - desc) / 2);
   }
-  // 自動で大きさを決めてロゴを描いた canvas を返す（S：大きい文字の大きさ）
-  function renderLogo(S, transparent) {
-    var f = fontOf(state.font);
+  // ロゴ全体を、ちょうどいい大きさの canvas に描く（S：ロゴの文字の大きさ px）
+  function renderLogo(S, opt) {
+    opt = opt || {};
+    var f = byId(FONTS, state.font), layout = opt.layout || state.layout;
     var c = document.createElement("canvas"), ctx = c.getContext("2d");
-    var layout = state.layout, hasMark = state.shape !== "none" && layout !== "text";
-    if (layout === "mark" && !hasMark) hasMark = false;
-    var showText = layout !== "mark";
-    var main = state.main.trim(), sub = state.sub.trim();
-    if (showText && !main && !sub && !hasMark) main = "LOGO";
-    var subS = S * .3;
-    var mm = showText ? measure(ctx, main, cssFont(f, S), S, S * state.spacing / 100) : measure(ctx, "", "", S, 0);
-    var sm = showText ? measure(ctx, sub, cssFont(f, subS), subS, subS * (state.spacing / 100 + .18)) : measure(ctx, "", "", subS, 0);
-    var gap = main && sub ? S * .26 : 0;
+    var hasMark = layout !== "text", hasText = layout !== "mark";
+    var main = hasText ? state.main.trim() : "", sub = hasText ? state.sub.trim() : "";
+    var subS = S * .3, ls = S * .04, subLs = subS * .18;
+    var mm = measure(ctx, main, fontSpec(f, S), ls), sm = measure(ctx, sub, fontSpec(f, subS), subLs);
+    var gap = main && sub ? S * .28 : 0;
     var tW = Math.max(mm.w, sm.w), tH = mm.asc + mm.desc + gap + sm.asc + sm.desc;
-    var M = 0;
-    if (hasMark) {
-      var base = layout === "row" ? Math.max(tH, S * .95) * 1.3 : layout === "col" ? S * 1.7 : S * 2.4;
-      M = base * state.markSize / 100;
-    }
-    if (layout === "mark" && !hasMark) { M = 0; }
-    var gapMT = hasMark && tW ? S * (layout === "row" ? .38 : .34) : 0;
-    var W, H;
-    if (layout === "row") { W = M + gapMT + tW; H = Math.max(M, tH); }
-    else { W = Math.max(M, tW); H = M + gapMT + (tW ? tH : 0); }
-    if (!W || !H) { W = S; H = S; }
-    var pad = S * .42;
+    var M = !hasMark ? 0 : layout === "row" ? Math.max(tH, S) * 1.25 : layout === "col" ? S * 1.7 : S * 2.4;
+    var g = hasMark && tW ? S * .4 : 0;
+    var W = layout === "row" ? M + g + tW : Math.max(M, tW);
+    var H = layout === "row" ? Math.max(M, tH) : M + g + (tW ? tH : 0);
+    var pad = S * .45;
     c.width = Math.ceil(W + pad * 2); c.height = Math.ceil(H + pad * 2);
     ctx = c.getContext("2d");
-    if (!transparent) { ctx.fillStyle = state.bg; ctx.fillRect(0, 0, c.width, c.height); }
-    var ox = pad, oy = pad, tx, ty, align;
-    if (hasMark) {
-      if (layout === "row") drawMark(ctx, ox + M / 2, oy + H / 2, M, f);
-      else drawMark(ctx, ox + W / 2, oy + M / 2, M, f);
-    }
+    if (!opt.clear) { ctx.fillStyle = state.bg; ctx.fillRect(0, 0, c.width, c.height); }
+    if (hasMark) layout === "row" ? drawMark(ctx, pad + M / 2, pad + H / 2, M, f) : drawMark(ctx, pad + W / 2, pad + M / 2, M, f);
     if (tW) {
-      if (layout === "row") { tx = ox + M + gapMT; ty = oy + (H - tH) / 2; align = "left"; }
-      else { tx = ox + W / 2; ty = oy + M + gapMT; align = "center"; }
-      ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
-      if (main) {
-        ctx.font = cssFont(f, S); ctx.fillStyle = state.text;
-        drawLine(ctx, main, mm, align === "left" ? tx : tx - mm.w / 2, ty + mm.asc, S * state.spacing / 100);
-      }
+      var tx = layout === "row" ? pad + M + g : pad + W / 2, ty = layout === "row" ? pad + (H - tH) / 2 : pad + M + g;
+      var center = layout !== "row";
+      ctx.textAlign = "left"; ctx.textBaseline = "alphabetic"; ctx.fillStyle = state.text;
+      if (main) { ctx.font = fontSpec(f, S); fillLine(ctx, main, mm, center ? tx - mm.w / 2 : tx, ty + mm.asc, ls); }
       if (sub) {
-        ctx.font = cssFont(f, subS); ctx.fillStyle = state.text; ctx.globalAlpha = .78;
-        var sx = align === "left" ? tx + (layout === "row" ? 0 : 0) : tx - sm.w / 2;
-        drawLine(ctx, sub, sm, sx, ty + mm.asc + mm.desc + gap + sm.asc, subS * (state.spacing / 100 + .18));
+        ctx.font = fontSpec(f, subS); ctx.globalAlpha = .8;
+        fillLine(ctx, sub, sm, center ? tx - sm.w / 2 : tx, ty + mm.asc + mm.desc + gap + sm.asc, subLs);
         ctx.globalAlpha = 1;
       }
     }
     return c;
   }
-  // 決まった大きさの画像に、ロゴを真ん中に入れる
-  function renderFitted(w, h, fill) {
-    var logo = renderLogo(240, true);
-    var c = document.createElement("canvas"); c.width = w; c.height = h;
-    var ctx = c.getContext("2d");
-    if (state.bgmode === "fill") { ctx.fillStyle = state.bg; ctx.fillRect(0, 0, w, h); }
-    var k = Math.min(w * fill / logo.width, h * fill / logo.height);
+  // アイコン用：512×512。マークを大きく（文字だけのときはロゴ全体を収める）
+  function renderIcon() {
+    var size = 512, c = document.createElement("canvas"); c.width = c.height = size;
+    var ctx = c.getContext("2d"), f = byId(FONTS, state.font);
+    if (!state.transparent) { ctx.fillStyle = state.bg; ctx.fillRect(0, 0, size, size); }
+    if (state.layout !== "text") { drawMark(ctx, size / 2, size / 2, size * .78, f); return c; }
+    var logo = renderLogo(200, { clear: true });
+    var k = Math.min(size * .86 / logo.width, size * .86 / logo.height);
     ctx.imageSmoothingQuality = "high";
-    ctx.drawImage(logo, (w - logo.width * k) / 2, (h - logo.height * k) / 2, logo.width * k, logo.height * k);
+    ctx.drawImage(logo, (size - logo.width * k) / 2, (size - logo.height * k) / 2, logo.width * k, logo.height * k);
     return c;
   }
 
-  /* ---------- フォントを読み込んでから描く ---------- */
-  var drawSeq = 0;
-  function draw() {
-    var seq = ++drawSeq, f = fontOf(state.font);
-    var text = state.main + state.sub + markText();
-    var loads = [document.fonts.load(cssFont(f, 40), text || "A")];
-    if (!f.jp) loads.push(document.fonts.load("700 40px \"Zen Maru Gothic\"", text || "あ"));
-    Promise.all(loads).catch(function () {}).then(function () { if (seq === drawSeq) paintPreview(); });
-    paintPreview(); // 読み込みを待つあいだも、いったん表示
+  /* ================= フォントを読み込んでから描く ================= */
+  var PREVIEW_S = 52;   // プレビューの文字の大きさ（保存はこの4倍）
+  var cssReady = new Promise(function (res) {
+    var link = $("logo-fonts");
+    try { if (link.sheet && link.sheet.cssRules.length) return res(); } catch (e) { /* 別サイトのCSSは中身を読めないので、load を待つ */ }
+    link.addEventListener("load", res); link.addEventListener("error", res);
+    setTimeout(res, 4000);
+  });
+  function fontsFor() {
+    var f = byId(FONTS, state.font), text = (state.main + state.sub + markString()) || "あA";
+    return cssReady.then(function () {
+      var wait = Promise.all([document.fonts.load(fontSpec(f, 40), text), document.fonts.load(fontSpec(FONTS[0], 40), text)]);
+      // 回線が遅いときも、4秒たったら描く
+      return Promise.race([wait, new Promise(function (r) { setTimeout(r, 4000); })]);
+    }).catch(function () {});
   }
-  function paintPreview() {
-    var dpr = Math.min(window.devicePixelRatio || 1, 2);
-    var src = renderLogo(64 * dpr, state.bgmode === "clear");
-    var pv = $("pv");
+  var seq = 0, firstDone = false;
+  function draw() {
+    var my = ++seq, f = byId(FONTS, state.font), text = state.main + state.sub + markString();
+    var ready = document.fonts && document.fonts.check(fontSpec(f, 40), text || "あ");
+    if (ready && firstDone) { paint(); return; }
+    $("loading").classList.remove("hidden");
+    fontsFor().then(function () { if (my !== seq) return; firstDone = true; $("loading").classList.add("hidden"); paint(); });
+  }
+  function paint() {
+    var empty = !state.main.trim();
+    $("empty").classList.toggle("hidden", !empty);
+    $("pv").classList.toggle("hidden", empty);
+    $("main-err").classList.toggle("hidden", !empty);
+    [].forEach.call(document.querySelectorAll(".save"), function (b) { b.disabled = empty; });
+    if (empty) return;
+    var dpr = Math.min(window.devicePixelRatio || 1, 3);
+    var src = renderLogo(PREVIEW_S * dpr, { clear: state.transparent }), pv = $("pv");
     pv.width = src.width; pv.height = src.height;
     pv.getContext("2d").drawImage(src, 0, 0);
     pv.style.width = src.width / dpr + "px";
-    var stage = $("stage");
-    stage.classList.toggle("checker", state.bgmode === "clear");
-    stage.classList.toggle("dark", state.bgmode === "clear" && state.darkChecker);
-    stage.style.background = state.bgmode === "clear" ? "" : state.bg;
-    $("checker-toggle").classList.toggle("hidden", state.bgmode !== "clear");
-    $("checker-toggle").textContent = state.darkChecker ? "透明部分を明るく見る" : "透明部分を暗く見る";
-    var big = renderLogoSize();
-    $("size-logo").textContent = big.w + "×" + big.h;
+    pv.classList.toggle("clear", state.transparent);
+    var big = renderLogo(PREVIEW_S * 4, { clear: true });
+    $("logo-size").textContent = big.width + "×" + big.height + " PNG";
   }
-  function renderLogoSize() { var c = renderLogo(240, true); return { w: c.width, h: c.height }; }
 
-  /* ---------- 画面の部品を作る ---------- */
-  $("shapes").innerHTML = SHAPES.map(function (s) {
-    return '<button type="button" data-v="' + s.id + '"><svg viewBox="0 0 28 28" aria-hidden="true">' + s.svg + '</svg>' + s.name + '</button>';
-  }).join("");
-  $("symbols").innerHTML = SYMBOLS.map(function (s) {
-    return s === "@initial" ? '<button type="button" class="word" data-v="@initial">頭文字</button>'
-      : '<button type="button" data-v="' + s + '">' + s + (s.length === 1 && s.charCodeAt(0) < 0x2800 ? TEXT_STYLE : "") + '</button>';
-  }).join("");
-  $("fonts").innerHTML = FONTS.map(function (f) {
-    return '<button type="button" data-v="' + f.id + '"><span class="s" style="font-family:\'' + f.family + '\';font-weight:' + f.w + '"></span><span class="n">' + f.name + '</span></button>';
-  }).join("");
-  $("palettes").innerHTML = PALETTES.map(function (p) {
-    return '<button type="button" data-v="' + p.id + '"><span class="sw" style="background:' + p.bg + '"><i style="background:' + p.mark + '"></i><b style="background:' + p.text + '"></b></span>' + p.name + '</button>';
+  /* ================= 画面の部品 ================= */
+  $("layouts").innerHTML = LAYOUTS.map(function (l) { return '<button type="button" data-v="' + l.id + '"><svg viewBox="0 0 44 28" aria-hidden="true">' + l.svg + '</svg>' + l.name + '</button>'; }).join("");
+  $("shapes").innerHTML = SHAPES.map(function (s) { return '<button type="button" data-v="' + s.id + '"><svg viewBox="0 0 24 24" aria-hidden="true">' + s.svg + '</svg>' + s.name + '</button>'; }).join("");
+  $("fonts").innerHTML = FONTS.map(function (f) { return '<button type="button" data-v="' + f.id + '"><span class="s" style="font-family:\'' + f.family + '\';font-weight:' + f.w + '"></span><span class="n">' + f.name + '</span></button>'; }).join("");
+  $("presets").innerHTML = PRESETS.map(function (p) {
+    return '<button type="button" data-v="' + p.id + '"><span class="sw" style="background:' + p.bg + '"><i style="background:' + p.mark + ';color:' + p.ink + '">あ</i><b style="background:' + p.text + '"></b></span>' + p.name + '</button>';
   }).join("");
 
-  function pressed(box, v) { [].forEach.call($(box).children, function (b) { b.setAttribute("aria-pressed", b.dataset.v === v ? "true" : "false"); }); }
-  function paintSettings() {
-    if (document.activeElement !== $("main-text")) $("main-text").value = state.main;
-    if (document.activeElement !== $("sub-text")) $("sub-text").value = state.sub;
-    if (document.activeElement !== $("mark-text")) $("mark-text").value = state.symbol === "@initial" ? "" : state.symbol;
-    pressed("shapes", state.shape); pressed("symbols", state.symbol); pressed("layout", state.layout);
-    pressed("fonts", state.font); pressed("palettes", state.palette); pressed("bgmode", state.bgmode);
-    $("mark-fields").classList.toggle("hidden", state.shape === "none");
-    $("mark-size-field").classList.toggle("hidden", state.shape === "none" || state.layout === "text");
-    $("spacing").value = state.spacing; $("spacing-v").textContent = (state.spacing > 0 ? "+" : "") + state.spacing;
-    $("spacing").style.setProperty("--p", (state.spacing + 5) / 45 * 100 + "%");
-    $("mark-size").value = state.markSize; $("mark-size-v").textContent = state.markSize + "%";
-    $("mark-size").style.setProperty("--p", (state.markSize - 60) / 100 * 100 + "%");
-    ["mark", "text", "bg"].forEach(function (k) { $("c-" + k).value = state[k]; $("c-" + k + "-v").textContent = state[k].toUpperCase(); });
-    // フォントの見本は、入れた名前で表示する
-    var sample = chars(state.main.trim() || "ロゴ").slice(0, 6).join("") || "ロゴ";
+  function press(box, v) { [].forEach.call($(box).children, function (b) { b.setAttribute("aria-pressed", b.dataset.v === v ? "true" : "false"); }); }
+  function paintControls() {
+    [["main-text", "main"], ["sub-text", "sub"], ["mark-text", "markText"]].forEach(function (p) { if (document.activeElement !== $(p[0])) $(p[0]).value = state[p[1]]; });
+    $("main-count").textContent = chars(state.main).length + " / 20";
+    press("layouts", state.layout); press("shapes", state.shape); press("fonts", state.font); press("presets", state.preset);
+    $("shape-card").style.opacity = state.layout === "text" ? .5 : 1;
+    ["text", "mark", "ink", "bg"].forEach(function (k) { $("c-" + k).value = state[k]; });
+    $("c-bg").disabled = state.transparent;
+    $("transparent").checked = state.transparent;
+    var sample = chars(state.main.trim() || "ロゴ").slice(0, 6).join("");
     [].forEach.call(document.querySelectorAll("#fonts .s"), function (el) { el.textContent = sample; });
   }
-  function update(opts) { if (!opts || !opts.quiet) remember(); save(); paintSettings(); draw(); }
-  function set(k, v) { if (state[k] === v) return; remember(); state[k] = v; save(); paintSettings(); draw(); }
+  function changed() { save(); paintControls(); draw(); }
 
-  /* ---------- 操作 ---------- */
-  // 文字の入力（1文字ごとに「もどす」の記録はしない）
-  var typing = {};
-  function onType(id, key) {
-    $(id).addEventListener("focus", function () { typing[id] = JSON.stringify(state); });
-    $(id).addEventListener("input", function () {
-      if (typing[id]) { history.push(typing[id]); typing[id] = null; $("undo").disabled = false; }
-      key(this.value); save(); paintSettings(); draw();
-    });
-  }
-  onType("main-text", function (v) { state.main = v; });
-  onType("sub-text", function (v) { state.sub = v; });
-  onType("mark-text", function (v) { state.symbol = v.trim() ? chars(v.trim()).slice(0, 2).join("") : "@initial"; });
+  /* ================= 操作 ================= */
+  $("main-text").addEventListener("input", function () { state.main = this.value; changed(); });
+  $("sub-text").addEventListener("input", function () { state.sub = this.value; changed(); });
+  $("mark-text").addEventListener("input", function () { state.markText = this.value; changed(); });
+  [["layouts", "layout"], ["shapes", "shape"], ["fonts", "font"]].forEach(function (p) {
+    $(p[0]).addEventListener("click", function (e) { var b = e.target.closest("button[data-v]"); if (b) { state[p[1]] = b.dataset.v; changed(); } });
+  });
+  function applyPreset(p) { state.preset = p.id; state.text = p.text; state.mark = p.mark; state.ink = p.ink; state.bg = p.bg; }
+  $("presets").addEventListener("click", function (e) { var b = e.target.closest("button[data-v]"); if (b) { applyPreset(byId(PRESETS, b.dataset.v)); changed(); } });
+  ["text", "mark", "ink", "bg"].forEach(function (k) {
+    $("c-" + k).addEventListener("input", function () { state[k] = this.value; state.preset = ""; changed(); });
+  });
+  $("transparent").addEventListener("change", function () { state.transparent = this.checked; changed(); });
 
-  function onPick(box, key, after) {
-    $(box).addEventListener("click", function (e) {
-      var b = e.target.closest("button[data-v]"); if (!b) return;
-      if (after) { remember(); after(b.dataset.v); save(); paintSettings(); draw(); } else set(key, b.dataset.v);
-    });
-  }
-  onPick("shapes", "shape", function (v) {
-    state.shape = v;
-    if (v === "none" && state.layout === "mark") state.layout = "row";
-    else if (v !== "none" && state.layout === "text") state.layout = "row";
-  });
-  onPick("symbols", "symbol");
-  onPick("layout", "layout", function (v) {
-    state.layout = v;
-    if (v === "mark" && state.shape === "none") state.shape = "circle";
-  });
-  onPick("fonts", "font");
-  onPick("bgmode", "bgmode");
-  onPick("palettes", "palette", function (v) {
-    var p = PALETTES.filter(function (x) { return x.id === v; })[0];
-    state.palette = v; state.mark = p.mark; state.text = p.text; state.bg = p.bg;
-  });
-  ["mark", "text", "bg"].forEach(function (k) {
-    var el = $("c-" + k);
-    el.addEventListener("focus", function () { typing[k] = JSON.stringify(state); });
-    el.addEventListener("input", function () {
-      if (typing[k]) { history.push(typing[k]); typing[k] = null; $("undo").disabled = false; }
-      state[k] = this.value; state.palette = ""; save(); paintSettings(); draw();
-    });
-  });
-  [["spacing", "spacing"], ["mark-size", "markSize"]].forEach(function (p) {
-    var el = $(p[0]);
-    el.addEventListener("pointerdown", function () { remember(); });
-    el.addEventListener("keydown", function () { remember(); });
-    el.addEventListener("input", function () { state[p[1]] = +this.value; save(); paintSettings(); draw(); });
-  });
-  $("checker-toggle").addEventListener("click", function () { state.darkChecker = !state.darkChecker; save(); paintSettings(); draw(); });
-
-  // もどす
-  $("undo").addEventListener("click", function () {
-    var prev = history.pop(); if (!prev) return;
-    state = JSON.parse(prev); save(); paintSettings(); draw();
-    $("undo").disabled = !history.length;
-  });
-
-  // おまかせ（名前と背景の設定はそのまま）
-  function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
+  function pick(a, not) { var list = a.filter(function (x) { return x !== not; }); return list[Math.floor(Math.random() * list.length)]; }
   $("random").addEventListener("click", function () {
-    remember();
-    var f = fontOf(state.font);
-    var jpName = /[^\x00-\x7F]/.test(state.main);
-    var fonts = FONTS.filter(function (x) { return x.id !== state.font && (x.jp || !jpName); });
-    state.font = pick(fonts).id;
-    var p = pick(PALETTES.filter(function (x) { return x.id !== state.palette; }));
-    state.palette = p.id; state.mark = p.mark; state.text = p.text; state.bg = p.bg;
-    state.shape = pick(["circle", "rsquare", "diamond", "hexagon", "ring", "square", "plain", "circle", "rsquare"]);
-    state.symbol = Math.random() < .55 ? "@initial" : pick(SYMBOLS.slice(1));
-    state.layout = pick(["row", "row", "col"]);
-    state.spacing = pick([0, 4, 6, 10, 16]);
-    state.markSize = 100;
-    var r = $("random"); r.classList.remove("spin"); void r.offsetWidth; r.classList.add("spin");
-    save(); paintSettings(); draw();
+    state.font = pick(FONTS.map(function (f) { return f.id; }), state.font);
+    state.layout = pick(["row", "row", "row", "col", "col", "text", "mark"]);
+    state.shape = pick(SHAPES.map(function (s) { return s.id; }), state.shape);
+    applyPreset(byId(PRESETS, pick(PRESETS.map(function (p) { return p.id; }), state.preset)));
+    changed();
+  });
+  $("jump-save").addEventListener("click", function () { $("save-card").scrollIntoView({ behavior: "smooth", block: "start" }); });
+
+  /* ================= 保存 ================= */
+  var toastTimer;
+  function toast(msg) { var t = $("toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(toastTimer); toastTimer = setTimeout(function () { t.classList.remove("show"); }, 2200); }
+  function fileName(kind) { return (state.main.trim() || "logo").replace(/[\\/:*?"<>|\s]+/g, "_").slice(0, 20) + (kind === "icon" ? "_icon512" : "_logo") + ".png"; }
+  $("save-card").addEventListener("click", function (e) {
+    var b = e.target.closest(".save"); if (!b || b.disabled) return;
+    var kind = b.dataset.kind;
+    fontsFor().then(function () {
+      var c = kind === "icon" ? renderIcon() : renderLogo(PREVIEW_S * 4, { clear: state.transparent });
+      var url = c.toDataURL("image/png"), name = fileName(kind);
+      // 画面にも出しておく（iPhoneでダウンロードできないときは、長押しで保存）
+      $("result-img").src = url;
+      $("result-info").textContent = name + "（" + c.width + "×" + c.height + "）";
+      $("result").classList.remove("hidden");
+      try {
+        var a = document.createElement("a"); a.href = url; a.download = name;
+        document.body.appendChild(a); a.click(); a.remove();
+        toast("画像を保存しました");
+      } catch (err) { toast("下の画像を長押しして保存してください"); }
+      $("result").scrollIntoView({ behavior: "smooth", block: "center" });
+    });
   });
 
-  /* ---------- 保存 ---------- */
-  var toastTimer;
-  function toast(msg) { var t = $("toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(toastTimer); toastTimer = setTimeout(function () { t.classList.remove("show"); }, 2000); }
-  function fileName(kind) {
-    var base = (state.main.trim() || "logo").replace(/[\\/:*?"<>|\s]+/g, "_").slice(0, 30);
-    return base + (kind === "square" ? "_icon" : kind === "wide" ? "_banner" : "_logo") + ".png";
-  }
-  function saveImage(kind) {
-    var f = fontOf(state.font), text = state.main + state.sub + markText();
-    document.fonts.load(cssFont(f, 40), text || "A").catch(function () {}).then(function () {
-      var c = kind === "square" ? renderFitted(1024, 1024, .8) : kind === "wide" ? renderFitted(1500, 500, .72) : renderLogo(240, state.bgmode === "clear");
-      c.toBlob(function (blob) {
-        if (!blob) { toast("画像を作れませんでした"); return; }
-        var name = fileName(kind), file;
-        try { file = new File([blob], name, { type: "image/png" }); } catch (e) {}
-        // スマホは共有画面から「画像を保存」できるようにする
-        var mobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-        if (mobile && file && navigator.canShare && navigator.canShare({ files: [file] })) {
-          navigator.share({ files: [file] }).catch(function () {});
-          return;
-        }
-        var url = URL.createObjectURL(blob), a = document.createElement("a");
-        a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
-        setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
-        toast("保存しました：" + name);
-      }, "image/png");
-    });
-  }
-  $("save-card").addEventListener("click", function (e) { var b = e.target.closest("[data-save]"); if (b) saveImage(b.dataset.save); });
-  $("save-main").addEventListener("click", function () { $("save-card").scrollIntoView({ behavior: "smooth", block: "center" }); });
-
-  paintSettings(); draw();
-  // フォントが届いたら描き直す
-  if (document.fonts) {
-    document.fonts.ready.then(paintPreview);
-    if (document.fonts.addEventListener) document.fonts.addEventListener("loadingdone", function () { paintPreview(); });
-  }
+  // 最初の表示：フォントがそろってから描く。ボタンの見本用フォントが届いたら見本だけ描き直される
+  paintControls(); draw();
 })();
 </script>
 </body>
